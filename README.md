@@ -25,19 +25,22 @@ GET /songs/:songid
     - Likes associated with the song
     - Reposts associated with the song
 
+- Example of returned data
+    - 
+
 POST /songs
 - Inserts a new song into the database
 
 POST /likes?song=songid&user=userid
 - Creates a new like entry from a specific user for the specified song ID
 
-DELETE /likes/song/:songid/user/:userid
+DELETE /likes?song=songid&user=userid
 - Removes the like entry for the specified song ID at the specified user ID
 
-POST /reposts/song/:songid/user/:userid
+POST /reposts?song=songid&user=userid
 - Creates a new repost entry from a specific user for the specified song ID
 
-DELETE /reposts/song/:songid/user/:userid
+DELETE /reposts?song=songid&user=userid
 - Removes the repost entry for the specified song ID at the specified user ID
 
 PUT /songs/:songid
