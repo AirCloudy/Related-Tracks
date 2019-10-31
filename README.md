@@ -28,16 +28,16 @@ GET /songs/:songid
 POST /songs
 - Inserts a new song into the database
 
-POST /likes/:userid_:songid
+POST /likes?song=songid&user=userid
 - Creates a new like entry from a specific user for the specified song ID
 
-DELETE /likes/:userid_:songid
+DELETE /likes/song/:songid/user/:userid
 - Removes the like entry for the specified song ID at the specified user ID
 
-POST /reposts/:userid_:songid
+POST /reposts/song/:songid/user/:userid
 - Creates a new repost entry from a specific user for the specified song ID
 
-DELETE /reposts/:userid_:songid
+DELETE /reposts/song/:songid/user/:userid
 - Removes the repost entry for the specified song ID at the specified user ID
 
 PUT /songs/:songid
