@@ -11,7 +11,8 @@
     "start": "nodemon ./server/index.js",
     "test": "jest",
     "react-dev": "webpack --watch",
-    "seed-database": "node database/seed.js"
+    "seed-database": "node database/seed.js",
+    "data-gen": "node database/data_generation.js"
   },
   "dependencies": {
     "axios": "^0.19.0",
@@ -30,8 +31,10 @@
     "path": "^0.12.7",
     "react": "^16.10.2",
     "react-dom": "^16.10.2",
+    "stream": "0.0.2",
     "style-loader": "^1.0.0",
-    "webpack": "^4.41.0"
+    "webpack": "^4.41.0",
+    "zlib": "^1.0.5"
   },
   "devDependencies": {
     "@babel/polyfill": "^7.6.0",
