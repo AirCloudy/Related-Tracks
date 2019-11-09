@@ -12,7 +12,8 @@
     "test": "jest",
     "react-dev": "webpack --watch",
     "seed-database": "node database/seed.js",
-    "data-gen": "node database/data_generation.js"
+    "data-gen": "node database/data_generation.js",
+    "neo4j-gen": "node database/data_generation_neo4j.js"
   },
   "dependencies": {
     "axios": "^0.19.0",
