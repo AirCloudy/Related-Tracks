@@ -13,7 +13,8 @@
     "react-dev": "webpack --watch",
     "seed-database": "node database/seed.js",
     "data-gen": "node database/data_generation.js",
-    "neo4j-gen": "node database/data_generation_neo4j.js"
+    "neo4j-gen": "node database/data_generation_neo4j.js",
+    "k6": "node k6_http_get.js"
   },
   "dependencies": {
     "axios": "^0.19.0",
@@ -28,6 +29,8 @@
     "jest-environment-enzyme": "^7.1.1",
     "jest-enzyme": "^7.1.1",
     "mysql": "^2.17.1",
+    "neo4j-driver": "^1.7.6",
+    "newrelic": "^6.1.0",
     "nodemon": "^1.19.3",
     "path": "^0.12.7",
     "react": "^16.10.2",

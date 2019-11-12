@@ -1,91 +1,23 @@
-let db = require('./index.js');
+const neo4j = require('neo4j-driver').v1;
 
-let getCurrentSong = function(req, res) {
-  db.query(
-    `select * from songs where song_id = "${req.params.songid}"`,
-    (err, song) => {
-      if (err) {
-        res.sendStatus(500);
-      } else {
-        res.send(song);
-      }
-    }
-  );
-};
+const driver = neo4j.driver("bolt://localhost:7687", neo4j.auth.basic("neo4j", "neo4j"));
 
-let getRelatedTracks = function(req, res) {
-  db.query(
-    `select * from songs where tag = (select tag from songs where song_id = "${req.params.songid}")`,
-    (err, songs) => {
-      if (err) {
-        console.log(err);
-        res.sendStatus(500);
-      } else {
-        res.send(songs);
-      }
-    }
-  );
-};
+const getSong = (song_id, res) => {
+  var session = driver.session();
+  const cypher = 'MATCH (song:Song {id: {id} }) RETURN song';
+  const params = {id: song_id};
+  console.log(params);
+  return session
+    .run(cypher, params)
+    .then(result => {
+      session.close();
+      console.log(result);
+      res.send(result.records);
+    })
+    .catch(error => {
+      session.close();
+      throw error;
+    });
+}
 
-let getUsersLiked = function(req, res) {
-  db.query(
-    `select * from users where id in (select user from song_user_likes where song = (select id from songs where song_id = "${req.params.songid}"))`,
-    (err, users) => {
-      if (err) {
-        console.log(err);
-        res.sendStatus(500);
-      } else {
-        res.send(users);
-      }
-    }
-  );
-};
-
-let getUsersRepost = function(req, res) {
-  db.query(
-    `select * from users where id in (select user from song_user_reposts where song = (select id from songs where song_id = "${req.params.songid}"))`,
-    (err, users) => {
-      if (err) {
-        console.log(err);
-        res.sendStatus(500);
-      } else {
-        res.send(users);
-      }
-    }
-  );
-};
-
-let getInclusivePlaylists = function(req, res) {
-  db.query(
-    `select * from playlists where id in (select playlist from playlist_song_included where song = (select id from songs where song_id =  "${req.params.songid}"))`,
-    (err, playlists) => {
-      if (err) {
-        console.log(err);
-        res.sendStatus(500);
-      } else {
-        res.send(playlists);
-      }
-    }
-  );
-};
-
-let getInclusiveAlbums = function(req, res) {
-  db.query(
-    `select * from albums where id in (select album from album_song_included where song = (select id from songs where song_id = "${req.params.songid}"))`,
-    (err, albums) => {
-      if (err) {
-        console.log(err);
-        res.sendStatus(500);
-      } else {
-        res.send(albums);
-      }
-    }
-  );
-};
-
-module.exports.getRelatedTracks = getRelatedTracks;
-module.exports.getUsersLiked = getUsersLiked;
-module.exports.getUsersRepost = getUsersRepost;
-module.exports.getInclusivePlaylists = getInclusivePlaylists;
-module.exports.getInclusiveAlbums = getInclusiveAlbums;
-module.exports.getCurrentSong = getCurrentSong;
+exports.getSong = getSong;
