@@ -21,55 +21,10 @@ class Sidebar extends React.Component {
 
   componentDidMount() {
     axios
-      .get(`http://localhost:5000/currentSong/${this.state.currentSongId}`)
+      .get(`http://localhost:5000/songs/${this.state.currentSongId}`)
       .then(song => {
         this.setState({ currentSong: song.data[0] });
       });
-    axios
-      .get(`http://localhost:5000/relatedtracks/${this.state.currentSongId}`)
-      .then(songs => {
-        this.setState({ relatedTracks: songs.data });
-      })
-      .catch(err => {
-        console.log(err, 'this is the error from axios req');
-      });
-
-    axios
-      .get(`http://localhost:5000/userlike/${this.state.currentSongId}`)
-      .then(users => {
-        this.setState({ userLikes: users.data });
-      })
-      .catch(err => {
-        console.log(err);
-      });
-
-    axios
-      .get(`http://localhost:5000/userrepost/${this.state.currentSongId}`)
-      .then(users => {
-        this.setState({ userReposts: users.data });
-      })
-      .catch(err => {
-        console.log(err);
-      });
-
-    axios
-      .get(`http://localhost:5000/playlistincluded/${this.state.currentSongId}`)
-      .then(playlists => {
-        this.setState({ playlistsInclud: playlists.data });
-      })
-      .catch(err => {
-        console.log(err);
-      });
-
-    axios
-      .get(`http://localhost:5000/albumincluded/${this.state.currentSongId}`)
-      .then(albums => {
-        this.setState({ albumsInclud: albums.data });
-      })
-      .catch(err => {
-        console.log(err);
-      });
-    //api requests to fill the app's state components
   }
 
   render() {
@@ -90,7 +45,6 @@ class Sidebar extends React.Component {
           type="albums"
           albums={this.state.albumsInclud}
         />
-
         <InteractionContainer
           id="user-likes"
           type="likes"
@@ -113,6 +67,6 @@ class Sidebar extends React.Component {
 export default Sidebar;
 
 ReactDOM.render(
-  <Sidebar currentSong="Song_00001" />,
+  <Sidebar currentSong="50" />,
   document.getElementById('sidebar')
 );

@@ -4,6 +4,6 @@ import App from './components/App.jsx';
 import 'babel-polyfill';
 
 ReactDOM.render(
-  <App currentSong="Song_00001" />,
+  <App currentSong="388484" />,
   document.getElementById('app')
 );

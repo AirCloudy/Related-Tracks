@@ -1,2 +1,4 @@
 node_modules
 database/data
+newrelic_agent.log
+newrelic.js
