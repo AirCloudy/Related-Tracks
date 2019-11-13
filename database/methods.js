@@ -16,6 +16,7 @@ const getSong = (song_id, res) => {
   })
   .catch(error => {
     session.close();
+    res.end();
     throw error;
   });
 }
@@ -29,10 +30,12 @@ const postSong = (song_data, res) => {
     .then(result => {
       res.status(200);
       res.end();
+      session.close();
     })
     .catch(error => {
       res.status(500);
       res.end();
+      session.close();
       throw error;
     });
   }
