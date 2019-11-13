@@ -4,20 +4,41 @@ const driver = neo4j.driver("bolt://localhost:7687", neo4j.auth.basic("neo4j", "
 
 const getSong = (song_id, res) => {
   var session = driver.session();
-  const cypher = 'MATCH (song:Song {id: {id} }) RETURN song';
   const params = {id: song_id};
-  console.log(params);
-  return session
-    .run(cypher, params)
+  
+  return Promise.all([
+    session.run('MATCH (song:Song {id: {id} }) RETURN song.name', params),
+    session.run('MATCH (song:Song {id: {id} })-[:APPEARS_ON]->(album:Album) RETURN album', params)
+  ])
+  .then(result => {
+    res.send(result);
+    session.close();
+  })
+  .catch(error => {
+    session.close();
+    res.end();
+    throw error;
+  });
+}
+
+const postSong = (song_data, res) => {
+  var session = driver.session();
+  const cypherCreateSong = 'CREATE (song:Song {name: {songname}, art: {songart}, year: {songyear}})';
+  const cypherCreateSongParams = {songname: song_data.songname, songart: song_data.songart, songyear: song_data.songyear};
+
+  session.run(cypherCreateSong, cypherCreateSongParams)
     .then(result => {
+      res.status(200);
+      res.end();
       session.close();
-      console.log(result);
-      res.send(result.records);
     })
     .catch(error => {
+      res.status(500);
+      res.end();
       session.close();
       throw error;
     });
-}
+  }
 
 exports.getSong = getSong;
+exports.postSong = postSong;

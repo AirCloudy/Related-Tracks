@@ -20,11 +20,17 @@ app.use(function(req, res, next) {
   next();
 });
 
-app.get('/:songid', (req, res) => {
+app.get('/songs/:songid', (req, res) => {
   console.log('Processing get request');
   var song_id = parseInt(req.params.songid);
   db.getSong(song_id, res);
 });
+
+app.post('/songs', (req, res) => {
+  console.log('Processing post request');
+  var song_data = req.body;
+  db.postSong(song_data, res);
+})
 
 app.listen(PORT, () => {
   console.log(`listening on port ${PORT}`);
